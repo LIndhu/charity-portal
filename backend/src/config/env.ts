@@ -1,56 +1,46 @@
-console.log('MYSQL ENV CHECK:', {
-  MYSQL_HOST: process.env.MYSQL_HOST,
-  MYSQL_PORT: process.env.MYSQL_PORT,
-  MYSQL_USER: process.env.MYSQL_USER,
-  MYSQL_DATABASE: process.env.MYSQL_DATABASE,
-});
-
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const requiredVars = ['PORT', 'JWT_SECRET'] as const;
+/* ========= REQUIRED ENV CHECK ========= */
+const requiredVars = [
+  'PORT',
+  'JWT_SECRET',
+  'MYSQL_URL',
+  'ADMIN_SECURITY_CODE',
+] as const;
 
 requiredVars.forEach((key) => {
   if (!process.env[key]) {
-    throw new Error(`Missing required environment variable: ${key}`);
+    throw new Error(`❌ Missing required environment variable: ${key}`);
   }
 });
-if (!process.env.MYSQL_HOST) {
-  throw new Error('❌ MYSQL_HOST is missing in environment variables');
-}
 
-
+/* ========= EXPORT ENV ========= */
 export const env = {
   // Server
-  port: parseInt(process.env.PORT || '4000', 10),
+  port: Number(process.env.PORT || 4000),
   nodeEnv: process.env.NODE_ENV || 'development',
   jwtSecret: process.env.JWT_SECRET as string,
 
-  // CORS / Frontend
+  // Frontend
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:4200',
-  enableHttpLogs: (process.env.ENABLE_HTTP_LOGS || '').toLowerCase() === 'true',
-  logLevel: (process.env.LOG_LEVEL || '').toLowerCase(),
-
-  // SMTP
-  smtpHost: process.env.SMTP_HOST as string,
-  smtpPort: parseInt(process.env.SMTP_PORT || '587', 10),
-  smtpSecure: (process.env.SMTP_SECURE || '').toLowerCase() === 'true',
-  smtpUser: process.env.SMTP_USER as string,
-  smtpPass: process.env.SMTP_PASS as string,
-  smtpFrom: process.env.SMTP_FROM as string,
 
   // Admin
   adminSecurityCode: process.env.ADMIN_SECURITY_CODE as string,
 
-  // MySQL
-  mysql: {
-    host: process.env.MYSQL_HOST!,
-    port: Number(process.env.MYSQL_PORT),
-    user: process.env.MYSQL_USER!,
-    password: process.env.MYSQL_PASSWORD!,
-    database: process.env.MYSQL_DATABASE!,
-  },
+  // MySQL (Railway)
+  mysqlUrl: process.env.MYSQL_URL as string,
 
+  // SMTP (email)
+  smtpHost: process.env.SMTP_HOST,
+  smtpPort: Number(process.env.SMTP_PORT || 587),
+  smtpSecure: process.env.SMTP_SECURE === 'true',
+  smtpUser: process.env.SMTP_USER,
+  smtpPass: process.env.SMTP_PASS,
+  smtpFrom: process.env.SMTP_FROM,
+
+  // Logs
+  enableHttpLogs: process.env.ENABLE_HTTP_LOGS === 'true',
+  logLevel: process.env.LOG_LEVEL || 'info',
 };
-
