@@ -1,3 +1,10 @@
+console.log('MYSQL ENV CHECK:', {
+  MYSQL_HOST: process.env.MYSQL_HOST,
+  MYSQL_PORT: process.env.MYSQL_PORT,
+  MYSQL_USER: process.env.MYSQL_USER,
+  MYSQL_DATABASE: process.env.MYSQL_DATABASE,
+});
+
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -9,6 +16,10 @@ requiredVars.forEach((key) => {
     throw new Error(`Missing required environment variable: ${key}`);
   }
 });
+if (!process.env.MYSQL_HOST) {
+  throw new Error('❌ MYSQL_HOST is missing in environment variables');
+}
+
 
 export const env = {
   // Server

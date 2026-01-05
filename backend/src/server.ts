@@ -22,8 +22,9 @@ async function start() {
 
   } catch (err) {
     console.error('❌ Failed to start server:', err);
-    process.exit(1);
+    console.log('⚠️ Server will continue running without DB');
   }
+
 }
 
 start();
