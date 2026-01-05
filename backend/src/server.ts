@@ -2,24 +2,36 @@ import { createServer } from 'http';
 import app from './app';
 import { env } from './config/env';
 import { initMySQL } from './config/mysql';
-import { verifyEmailConfig } from './utils/email.service';
 import { initSocketIO } from './socket/socket.server';
 
-const start = async () => {
-  try {
-    await initMySQL();
-    verifyEmailConfig();
-    const httpServer = createServer(app);
+const PORT = Number(process.env.PORT || env.port || 4000);
+
+async function start() {
+  console.log('Starting server...');
+
+  try {
+    await initMySQL();
+    console.log('✓ MySQL connected successfully');
+
+    const httpServer = createServer(app);
     initSocketIO(httpServer);
-    
-    httpServer.listen(env.port, () => {
-      console.log(`Server running on port ${env.port}`);
+
+    httpServer.listen(PORT, '0.0.0.0', () => {
+      console.log(`🚀 Server running on port ${PORT}`);
     });
-  } catch (error) {
-    console.error('Failed to start server', error);
+
+  } catch (err) {
+    console.error('❌ Failed to start server:', err);
     process.exit(1);
   }
-};
+}
 
 start();
 
+process.on('unhandledRejection', err => {
+  console.error('Unhandled Promise Rejection:', err);
+});
+
+process.on('uncaughtException', err => {
+  console.error('Uncaught Exception:', err);
+});

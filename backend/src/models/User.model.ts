@@ -1,6 +1,6 @@
-
-export interface UserModel {
-  id: string;
+export interface User {
+  id: number;
   name: string;
+  role: 'DONOR' | 'NGO' | 'ADMIN';
+  email: string;
 }
-

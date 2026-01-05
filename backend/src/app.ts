@@ -1,3 +1,4 @@
+console.log('APP.TS LOADED');
 import helpRoutes from './routes/help.routes';
 import express from 'express';
 import cors from 'cors';
@@ -37,21 +38,12 @@ import { sendSuccess } from './utils/response';
 
 import { errorHandler } from './middleware/error.middleware';
 
-initLogger();
+//initLogger();
 const app = express();
 
 const FRONTEND_URL = env.frontendUrl;
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", FRONTEND_URL],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-    },
-  },
-  crossOriginResourcePolicy: { policy: "cross-origin" }
-}));
+app.use(helmet());
+
 app.use(cors({
   origin: [FRONTEND_URL],
   credentials: true
@@ -237,9 +229,9 @@ leaderboardRouter.get('/', async (req, res) => {
 });
 app.use('/api/leaderboard', leaderboardRouter);
 
-app.use('/api', contributionsMysqlRoutes); // POST /api/donations/:id/contribute
-app.use('/api/contributions', contributionsRouter); // GET /api/contributions/my, GET /api/contributions/ngo/:ngoId
-app.use('/api/pickups', pickupsMysqlRoutes);
+//app.use('/api', contributionsMysqlRoutes); // POST /api/donations/:id/contribute
+//app.use('/api/contributions', contributionsRouter); // GET /api/contributions/my, GET /api/contributions/ngo/:ngoId
+//app.use('/api/pickups', pickupsMysqlRoutes);
 
 
 
@@ -271,5 +263,7 @@ app.use('/api/admin/email-templates', emailTemplatesRoutes);
 
 app.use(errorHandler);
 
+
 export default app;
+console.log('APP SETUP COMPLETE');
 

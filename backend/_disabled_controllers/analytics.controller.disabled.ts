@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { ContributionModel } from '../models/Contribution.model';
-import { DonationModel } from '../models/Donation.model';
-import { UserModel } from '../models/User.model';
-import { AuthRequest } from '../middleware/auth.middleware';
-import { sendSuccess } from '../utils/response';
+import { ContributionModel } from '../src/models/Contribution.model';
+import { DonationModel } from '../src/models/Donation.model';
+import type { UserModel } from '../src/models/User.model';
+import { AuthRequest } from '../src/middleware/auth.middleware';
+import { sendSuccess } from '../src/utils/response';
 export const getPlatformStats = async (req: Request, res: Response) => {
   const [
     totalDonors,

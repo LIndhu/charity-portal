@@ -10,19 +10,8 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "noImplicitAny": false,
-    "moduleResolution": "node",
-    
+    "moduleResolution": "node"
   },
   "include": ["src/**/*"],
-  "exclude": [
-    "node_modules", 
-    "dist",
-    "src/controllers/analytics.controller.ts",
-    "src/controllers/contribution.controller.ts",
-    "src/controllers/leaderboard.controller.ts",
-    "src/controllers/payment-management.controller.ts",
-    "src/controllers/pickup-management.controller.ts",
-    "src/controllers/tracking.controller.ts"
-  ]
+  "exclude": ["node_modules", "dist", "_disabled_controllers"]
 }
-

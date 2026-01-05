@@ -13,7 +13,10 @@ import { env } from '../config/env';
 export const initLogger = (): void => {
   const envLevel = (env.logLevel || '');
   const defaultLevel: LogLevel = env.nodeEnv === 'production' ? 'warn' : 'debug';
-  const activeLevel: LogLevel = levelOrder[envLevel] ? envLevel : defaultLevel;
+  const activeLevel = (levelOrder[envLevel as LogLevel]
+  ? envLevel
+  : defaultLevel) as LogLevel;
+
 
   const threshold = levelOrder[activeLevel];
 
